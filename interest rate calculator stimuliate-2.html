@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Rate Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .calculate-btn {
+            background: #74ebd5;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .calculate-btn:hover {
+            background: #57c3aa;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e0f7fa;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            white-space: pre-wrap;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .result {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer span {
+            font-weight: bold;
+            color: #74ebd5;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interest Rate Calculator</h1>
+    <div class="calculator">
+        <div class="input-group">
+            <label for="principal">Principal Amount</label>
+            <input type="number" id="principal" placeholder="Enter principal amount">
+        </div>
+
+        <div class="input-group">
+            <label for="rate">Annual Interest Rate (%)</label>
+            <input type="number" id="rate" placeholder="Enter interest rate">
+        </div>
+
+        <div class="input-group">
+            <label for="time">Time (Years)</label>
+            <input type="number" id="time" placeholder="Enter time in years">
+        </div>
+
+        <div class="input-group">
+            <label for="currency">Currency</label>
+            <select id="currency">
+                <option value="INR" selected>INR (₹)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="JPY">JPY (¥)</option>
+            </select>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateInterest()">Calculate</button>
+
+        <div class="result" id="result">Interest: ₹0.00
+Total Amount: ₹0.00</div>
+    </div>
+
+    <footer>
+        Created by <span>Fardin Sk</span>
+
+
+    </footer>
+
+    <script>
+        function calculateInterest() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const time = parseFloat(document.getElementById('time').value);
+            const currency = document.getElementById('currency').value;
+
+            if (isNaN(principal) || isNaN(rate) || isNaN(time)) {
+                document.getElementById('result').innerText = 'Please fill out all fields correctly.';
+                return;
+            }
+
+            const interest = (principal * rate * time) / 100;
+            const totalAmount = principal + interest;
+
+            let currencySymbol = '';
+            switch (currency) {
+                case 'USD':
+                    currencySymbol = '$';
+                    break;
+                case 'EUR':
+                    currencySymbol = '€';
+                    break;
+                case 'GBP':
+                    currencySymbol = '£';
+                    break;
+                case 'INR':
+                    currencySymbol = '₹';
+                    break;
+                case 'JPY':
+                    currencySymbol = '¥';
+                    break;
+            }
+
+            document.getElementById('result').innerText = 
+                `Interest: ${currencySymbol}${interest.toFixed(2)}\nTotal Amount: ${currencySymbol}${totalAmount.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
