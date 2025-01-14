@@ -124,6 +124,14 @@
         </div>
 
         <div class="input-group">
+            <label for="frequency">Interest Calculation Frequency</label>
+            <select id="frequency">
+                <option value="yearly" selected>Per Year</option>
+                <option value="monthly">Per Month</option>
+            </select>
+        </div>
+
+        <div class="input-group">
             <label for="currency">Currency</label>
             <select id="currency">
                 <option value="INR" selected>INR (₹)</option>
@@ -142,8 +150,6 @@ Total Amount: ₹0.00</div>
 
     <footer>
         Created by <span>Fardin Sk</span>
-
-
     </footer>
 
     <script>
@@ -151,6 +157,7 @@ Total Amount: ₹0.00</div>
             const principal = parseFloat(document.getElementById('principal').value);
             const rate = parseFloat(document.getElementById('rate').value);
             const time = parseFloat(document.getElementById('time').value);
+            const frequency = document.getElementById('frequency').value;
             const currency = document.getElementById('currency').value;
 
             if (isNaN(principal) || isNaN(rate) || isNaN(time)) {
@@ -158,30 +165,29 @@ Total Amount: ₹0.00</div>
                 return;
             }
 
-            const interest = (principal * rate * time) / 100;
+            const interest = computeInterest(principal, rate, time, frequency);
             const totalAmount = principal + interest;
 
-            let currencySymbol = '';
-            switch (currency) {
-                case 'USD':
-                    currencySymbol = '$';
-                    break;
-                case 'EUR':
-                    currencySymbol = '€';
-                    break;
-                case 'GBP':
-                    currencySymbol = '£';
-                    break;
-                case 'INR':
-                    currencySymbol = '₹';
-                    break;
-                case 'JPY':
-                    currencySymbol = '¥';
-                    break;
-            }
+            const currencySymbols = {
+                'USD': '$',
+                'EUR': '€',
+                'GBP': '£',
+                'INR': '₹',
+                'JPY': '¥'
+            };
+
+            const currencySymbol = currencySymbols[currency] || '';
 
             document.getElementById('result').innerText = 
                 `Interest: ${currencySymbol}${interest.toFixed(2)}\nTotal Amount: ${currencySymbol}${totalAmount.toFixed(2)}`;
+        }
+
+        function computeInterest(principal, rate, time, frequency) {
+            if (frequency === 'monthly') {
+                return (principal * rate * time) / (100 * 12);
+            } else {
+                return (principal * rate * time) / 100;
+            }
         }
     </script>
 </body>
